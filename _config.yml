@@ -1,11 +1,11 @@
 # Site settings
 author: Jared Grove
-title: 
+title: THE BLOG
 header-img: img/home-bg.png
 email: jaredkgrove@gmail.com
 copyright_name: Jared Grove
 description: > # this means to ignore newlines until "baseurl:"
-  
+  this is a story all about how my life got flipped turned upside down
 baseurl: "" # the subpath of your site, e.g. /blog
 twitter_username: 
 github_username:  jaredkgrove
