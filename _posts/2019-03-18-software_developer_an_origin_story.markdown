@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Software Developer: An Origin Story"
-date:       2019-03-18 04:20:39 +0000
+date:       2019-03-18 00:20:40 -0400
 permalink:  software_developer_an_origin_story
 ---
 
