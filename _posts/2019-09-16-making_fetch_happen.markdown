@@ -17,12 +17,12 @@ This was probably the easiest *why* for me to grasp. It makes perfect sense sens
 My solution to creating entirely new views with JS was to create templates of html in my js classes that defined the view's wrappers and static elements (filling in page specific information with template literals). Then tags displaying 'has many' relationships (and other variable data) were added dynamically based on the response of the AJAX request. I'm not totally satisfied with this approach. I like it for my simple views. For example, here is the JS to initialize my Courts index view:
 ```
 const initializeCourtsIndexView = () => {
-setBodyClass("courts index")
-let main = document.querySelector('main')
-main.innerHTML = `
-<h1> Courts </h1>
-<div class='courts-list'></div>
-` 
+ setBodyClass("courts index")
+ let main = document.querySelector('main')
+ main.innerHTML = `
+ <h1> Courts </h1>
+ <div class='courts-list'></div>
+ ` 
 }
 ```
 
