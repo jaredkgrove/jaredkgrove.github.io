@@ -17,70 +17,72 @@ This was probably the easiest *why* for me to grasp. It makes perfect sense sens
 My solution to creating entirely new views with JS was to create templates of html in my js classes that defined the view's wrappers and static elements (filling in page specific information with template literals). Then tags displaying 'has many' relationships (and other variable data) were added dynamically based on the response of the AJAX request. I'm not totally satisfied with this approach. I like it for my simple views. For example, here is the JS to initialize my Courts index view:
 ```
 const initializeCourtsIndexView = () => {
- setBodyClass("courts index")
- let main = document.querySelector('main')
- main.innerHTML = `
- <h1> Courts </h1>
- <div class='courts-list'></div>
- ` 
+    setBodyClass("courts index")
+    let main = document.querySelector('main')
+    main.innerHTML = `
+        <h1> Courts </h1>
+        <div class='courts-list'></div>
+    ` 
 }
 ```
 
 And the code to add elements representing each court:
 
 ```
-        addCourtWrapper = () => {
-            let wrapper = createElement('a', {class: "content-box js-court", href: "#", court_id: this.id})
-            let courtNameTag = createElement('h3',{}, this.name)
-            wrapper.appendChild(courtNameTag)
-            wrapper.innerHTML += `${this.location} <br> ${this.upcoming_game_count} upcoming games`
-            this.addClickListener(wrapper)
-            courtsWrapper.appendChild(wrapper)
-        }
+addCourtWrapper = () => {
+    let wrapper = createElement('a', {class: "content-box js-court", href: "#", court_id: this.id})
+    let courtNameTag = createElement('h3',{}, this.name)
+    wrapper.appendChild(courtNameTag)
+    wrapper.innerHTML += `${this.location} <br> ${this.upcoming_game_count} upcoming games`
+    this.addClickListener(wrapper)
+    courtsWrapper.appendChild(wrapper)
+}
 ```
 
 But when the views got more complex, it became easy to see how this approach could be a big pain if I ever wanted to make significant update to my view. Here is the initialization of a court show page rendered using JS:
 
 ```
-        initializeCourtShowView = () => {
-            setBodyClass("courts show")
-            let main = document.querySelector('main')
-            main.innerHTML = 
-            `
-                <h1 id='js-court-name'>${this.name}</h1>
-                <div class="court-info">
-                    <h3 id='js-court-location'>${this.location}</h3>
-                    <div class="favorite">
-                        <form class="button_to" method="post" action="/courts/${this.id}">
-                            <input type="hidden" name="_method" value="patch">
-                            <input type="submit" value="${currentUser.isFavoriteCourt(this.id) ? "REMOVE FROM FAVORITES" : "ADD TO FAVORITES"}">
-                            <input type="hidden" name="authenticity_token" value="${token}">
-                        </form>
-                        <h3 id='js-favorite-count'>Favorited by ${this.favorite_count} Players</h3>
-                    </div>
-            
-                    <div class="content-box">
-                        <h2>Upcoming Games</h2>
-                        <div class="games_list"></div>
-                    </div>
-                    <h2>Create New Game</h2>
-                    <form class="new-game" action="/courts/${this.id}/games" accept-charset="UTF-8" method="post">
-                        <input name="utf8" type="hidden" value="✓">
-                        <input type="hidden" name="authenticity_token" value="${token}">
-                        <input type="hidden" name="court_id" id="game_court_id" value="${this.id}">
-                        Skill Level <br>
-                        <select name="skill_level" id="game_skill_level">
-                            <option selected="selected" value="Everyone Welcome">Everyone Welcome</option>
-                            <option value="Weekend Hustlers">Weekend Hustlers</option>
-                            <option value="Offseason Reps">Offseason Reps</option>
-                            <option value="Run the Court (Girls)">Run the Court (Girls)</option>
-                            <option value="Still Got It">Still Got It</option></select> <br>
-                        Time <br> 
-                        <input type="datetime-local" name="time" id="game_time" value="2019-09-13T14:57"> <br>
-                        <input type="submit" name="commit" value="Create Game" data-disable-with="Create Game">
-                    </form>
-                </div>`
-        }
+initializeCourtShowView = () => {
+    setBodyClass("courts show")
+    let main = document.querySelector('main')
+    main.innerHTML = 
+    `
+        <h1 id='js-court-name'>${this.name}</h1>
+        <div class="court-info">
+            <h3 id='js-court-location'>${this.location}</h3>
+            <div class="favorite">
+                <form class="button_to" method="post" action="/courts/${this.id}">
+                    <input type="hidden" name="_method" value="patch">
+                    <input type="submit" value="${currentUser.isFavoriteCourt(this.id) ? "REMOVE FROM FAVORITES" : "ADD TO FAVORITES"}">
+                    <input type="hidden" name="authenticity_token" value="${token}">
+                </form>
+                <h3 id='js-favorite-count'>Favorited by ${this.favorite_count} Players</h3>
+            </div>
+    
+            <div class="content-box">
+                <h2>Upcoming Games</h2>
+                <div class="games_list"></div>
+            </div>
+            <h2>Create New Game</h2>
+            <form class="new-game" action="/courts/${this.id}/games" accept-charset="UTF-8" method="post">
+                <input name="utf8" type="hidden" value="✓">
+                <input type="hidden" name="authenticity_token" value="${token}">
+                <input type="hidden" name="court_id" id="game_court_id" value="${this.id}">
+                Skill Level <br>
+                <select name="skill_level" id="game_skill_level">
+                    <option selected="selected" value="Everyone Welcome">Everyone Welcome</option>
+                    <option value="Weekend Hustlers">Weekend Hustlers</option>
+                    <option value="Offseason Reps">Offseason Reps</option>
+                    <option value="Run the Court (Girls)">Run the Court (Girls)</option>
+                    <option value="Still Got It">Still Got It</option></select> <br>
+                Time <br> 
+                <input type="datetime-local" name="time" id="game_time" value="2019-09-13T14:57"> <br>
+                <input type="submit" name="commit" value="Create Game" data-disable-with="Create Game">
+            </form>
+        </div>
+    `
+}
+
 ```
 
 Yuck. And this is still a simple view structure. Discovering a better solution is still on my to-do list, but my gut says I shouldn't have to write massive amounts of HTML in JS. 
